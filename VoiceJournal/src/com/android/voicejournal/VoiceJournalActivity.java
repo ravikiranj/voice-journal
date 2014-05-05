@@ -10,12 +10,13 @@ import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class VoiceJournalActivity extends Activity {
@@ -51,31 +52,54 @@ public class VoiceJournalActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		// Layout
-		LinearLayout ll = new LinearLayout(this);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            0
-        );
+		RelativeLayout rl = new RelativeLayout(this);
+		// Layout Params
+		RelativeLayout.LayoutParams rlParams = new RelativeLayout.LayoutParams(
+		    ViewGroup.LayoutParams.MATCH_PARENT,
+			ViewGroup.LayoutParams.MATCH_PARENT
+		);
+		rl.setLayoutParams(rlParams);
 
 		// Record button
+		RelativeLayout.LayoutParams recordBtnParams = new RelativeLayout.LayoutParams(
+		    ViewGroup.LayoutParams.WRAP_CONTENT,
+			ViewGroup.LayoutParams.WRAP_CONTENT
+		);
+        recordBtnParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+        recordBtnParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        recordBtnParams.topMargin = 100;
         mRecordButton = new RecordButton(this);
         Resources resources = getResources();
         mRecordButton.setBackground(resources.getDrawable(R.drawable.media_record_128));
-        ll.addView(mRecordButton, layoutParams);
+        rl.addView(mRecordButton, recordBtnParams);
 
         // Play button
+		RelativeLayout.LayoutParams playBtnParams = new RelativeLayout.LayoutParams(
+		    ViewGroup.LayoutParams.WRAP_CONTENT,
+			ViewGroup.LayoutParams.WRAP_CONTENT
+		);
+		playBtnParams.addRule(RelativeLayout.BELOW, mRecordButton.getId());
+        playBtnParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        playBtnParams.topMargin = 450;
         mPlayButton = new PlayButton(this);
         mPlayButton.setBackground(resources.getDrawable(R.drawable.media_play_128));
-        ll.addView(mPlayButton, layoutParams);
+        rl.addView(mPlayButton, playBtnParams);
 
         // Status text
+		RelativeLayout.LayoutParams statusTextParams = new RelativeLayout.LayoutParams(
+		    ViewGroup.LayoutParams.WRAP_CONTENT,
+			ViewGroup.LayoutParams.WRAP_CONTENT
+		);
+		statusTextParams.addRule(RelativeLayout.BELOW, mPlayButton.getId());
+        statusTextParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        statusTextParams.topMargin = 800;
         mStatusText = new TextView(this);
         mStatusText.setText("Idle");
-        ll.addView(mStatusText, layoutParams);
+        mStatusText.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)25);
+        rl.addView(mStatusText, statusTextParams);
 
         // Set Content View
-        setContentView(ll);
+        setContentView(rl);
 	}
 
 	@Override
