@@ -30,6 +30,7 @@ public class VoiceJournalActivity extends Activity {
     private MediaPlayer mPlayer = null;
 
     private TextView mStatusText = null;
+    private Button mUploadButton = null;
 
     private enum RECORDSTATE {
         START,
@@ -97,6 +98,18 @@ public class VoiceJournalActivity extends Activity {
         mStatusText.setText("Idle");
         mStatusText.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)25);
         rl.addView(mStatusText, statusTextParams);
+
+        // Upload Button
+		RelativeLayout.LayoutParams uploadButtonParams = new RelativeLayout.LayoutParams(
+		    ViewGroup.LayoutParams.WRAP_CONTENT,
+			ViewGroup.LayoutParams.WRAP_CONTENT
+		);
+		uploadButtonParams.addRule(RelativeLayout.BELOW, mStatusText.getId());
+        uploadButtonParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        uploadButtonParams.topMargin = 1000;
+        mUploadButton = new Button(this);
+        mUploadButton.setText("Upload to Google Drive");
+        rl.addView(mUploadButton, uploadButtonParams);
 
         // Set Content View
         setContentView(rl);
